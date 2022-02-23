@@ -3,6 +3,8 @@ from threading import Thread
 import socket
 import os.path
 from math import ceil
+from skimage.io import imread, imsave
+import cv2
 
 class Server(socket.socket):
     def __init__(self):
@@ -45,9 +47,9 @@ class Server(socket.socket):
     
     def processing_img(self, user_socket):
             print("PROCESSING IMAGE")
-            sample = Image.open('imgs_for_server\original.jpg')
-            noise = sample.filter(ImageFilter.EDGE_ENHANCE)
-            noise = noise.save("imgs_for_server\oise.jpg")
+            img = imread("imgs_for_server\original.jpg") 
+            clear = cv2.medianBlur(img, 3)
+            imsave('imgs_for_server\oise.jpg', clear)
             self.send_img(user_socket)
 
     def send_img(self, user_socket):
@@ -64,4 +66,6 @@ class Server(socket.socket):
             if count == packages:
                 break
         print(f'Sent {count} packages')
-        file.close
+        file.close()
+
+    
