@@ -1,14 +1,7 @@
 import random
 
-k = 10
+k = int(input("Введите количеств бит генерации: "))
 MAX = 2**k
-
-
-def decr(value,size):
-    if size <= value:
-        return value - size
-    else:
-        return MAX-(size-value)
         
 def between(value,init,end):
     if init == end:
@@ -32,7 +25,7 @@ def betweenE(value,init,end):
     else:
         return between(value,init,end)
 
-class Node:
+class ChordNode:
     def __init__(self,id):
         self.id = id
         self.finger = {}
@@ -208,7 +201,7 @@ while command != 'exit':
     command = input(':::')
     if command == f'init':
         id = input('unput id: ')
-        exec(f'n{id} = Node({id})')
+        exec(f'n{id} = ChordNode({id})')
         initiated.append(id)
     
     if command == 'join':
@@ -229,7 +222,7 @@ while command != 'exit':
 
     if command == "init_max":
         for i in range(MAX):
-            exec(f'n{i} = Node({i})')
+            exec(f'n{i} = ChordNode({i})')
             initiated.append(i)
     
     if command == "join_all":
@@ -240,3 +233,10 @@ while command != 'exit':
     if command == "leave":
         id = input("id: ")
         exec(f'n{id}.leave()')
+
+def decr(value,size):
+    if size <= value:
+        return value - size
+    else:
+        return MAX-(size-value)
+
