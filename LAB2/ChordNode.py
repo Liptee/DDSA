@@ -9,6 +9,7 @@ class ChordNode:
         for i in range(k):
             self.start[i] = (self.id+(2**i))%MAX
         self.predecessor = None
+        self.succ = None
 
     def join(self, n1):
         if self == n1:
@@ -20,6 +21,7 @@ class ChordNode:
             self.update_others()
 
     def successor(self):
+        self.succ = self.finger[0]
         return self.finger[0]
 
     def init_finger_table(self,n1):
@@ -81,13 +83,21 @@ class ChordNode:
     def setSuccessor(self,succ):
         self.finger[0] = succ
 
-    def find_id(self, target):
-        for n in range(len(self.finger)):
-            if self.finger[n].id == target: 
-                N = self.finger[n]
-                return N
-        N = self.successor().find_id(target)
-        return N
+    def find_id(self, id):
+        if self.id == id:
+            return self.id
+        for i in range(k):
+            if self.finger[i].id == id:
+                return self.finger[i]
+
+        node = self.successor()
+        for r in range(int(MAX/2)):
+            if node.id == id:
+                return node.id
+            for i in range(k):
+                if node.finger[i].id == id:
+                    return node.finger[i]
+            node = node.successor()
 
     def info(self):
         print(f'id: {self.id}')

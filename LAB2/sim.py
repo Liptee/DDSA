@@ -10,7 +10,7 @@ while command != 'exit':
     if command == f'init':
         id = input('unput id: ')
         exec(f'n{id} = ChordNode({id})')
-        initiated.append(id)
+        initiated.append(int(id))
     
     if command == 'join':
         FROM = input("id: ")
@@ -44,5 +44,13 @@ while command != 'exit':
 
     if command == 'find_node':
         FROM = input('Choose your adress: ')
-        target = input('Input finding id: ')
-        exec(f"print(n{FROM}.find_id({target}))")
+        target = int(input('Input finding id: '))
+        if target in initiated:
+            exec(f"print(n{FROM}.find_id({target}))")
+        else: 
+            print('Node was not found')
+    
+    if command == 'check_find':
+        for id in initiated:
+            print(f'for {id}')
+            exec(f'print(n0.find_id({id}))')
