@@ -8,6 +8,7 @@ class ChordNode:
         self.start = {}
         for i in range(k):
             self.start[i] = (self.id+(2**i))%MAX
+        self.interval = []
         self.predecessor = None
         self.succ = None
 
@@ -19,6 +20,7 @@ class ChordNode:
         else:
             self.init_finger_table(n1)
             self.update_others()
+        print(f'{self.id} подключен к {n1.id}')
 
     def successor(self):
         self.succ = self.finger[0]
@@ -84,20 +86,19 @@ class ChordNode:
         self.finger[0] = succ
 
     def find_id(self, id):
-        if self.id == id:
-            return self.id
+        print(f"Итерация id: {self.id}")
         for i in range(k):
-            if self.finger[i].id == id:
+            if self.start[i] == id:
                 return self.finger[i]
-
-        node = self.successor()
-        for r in range(int(MAX/2)):
-            if node.id == id:
-                return node.id
-            for i in range(k):
-                if node.finger[i].id == id:
-                    return node.finger[i]
-            node = node.successor()
+        si = self.start[0]-1
+        if si == -1:
+            si = MAX - 1
+            if si == id:
+                return self
+        for x in range(len(self.start)-1):
+            if tools.EbetE(id, self.start[x], self.start[x+1], MAX):
+                return(self.finger[x].find_id(id))
+        return(self.finger[k-1].find_id(id))
 
     def info(self):
         print(f'id: {self.id}')
@@ -105,3 +106,4 @@ class ChordNode:
         print(f'start: {self.start}')
         print(f'successor: {self.successor()}')
         print(f'predecessor: {self.predecessor}')
+        print(f'interval: {self.interval}')

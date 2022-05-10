@@ -1,5 +1,15 @@
 from conf import MAX
-from hashlib import sha1
+
+def EbetE(value, init, end, MAX):
+    if init > end:
+        end = end + MAX - init
+        init = 0
+    if value == init or value == end:
+        return True
+    if value > init and value < end:
+        return True
+    else:
+        return False
 
 def between(value,init,end):
     if init == end:
